@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Generated model and local database artifacts
+*.pkl
+*.joblib
+*.db
+*.sqlite
+*.sqlite3
+
+# Local Streamlit and environment files
+.streamlit/secrets.toml
+.env
+.env.*
