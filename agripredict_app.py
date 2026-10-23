@@ -29,6 +29,7 @@ warnings.filterwarnings('ignore')
 
 # Use SQLite DatabaseManager for Streamlit Cloud
 from database_manager import DatabaseManager
+from prediction_validation import validate_prediction_input
 
 # Page configuration
 st.set_page_config(
@@ -345,6 +346,7 @@ def predict_yield_ml(model_data, input_data):
         scaler = model_data['scaler']
         label_encoders = model_data['label_encoders']
         feature_names = model_data['feature_names']
+        input_data = validate_prediction_input(input_data, feature_names)
         
         # Prepare input features
         input_df = pd.DataFrame([input_data])
@@ -353,11 +355,6 @@ def predict_yield_ml(model_data, input_data):
         for col in ['crop_type', 'county']:
             if col in input_df.columns and col in label_encoders:
                 input_df[col] = label_encoders[col].transform(input_df[col])
-        
-        # Ensure all features are present
-        for feature in feature_names:
-            if feature not in input_df.columns:
-                input_df[feature] = 0
         
         input_df = input_df[feature_names]
         
